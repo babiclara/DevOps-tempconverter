@@ -33,6 +33,12 @@ jobs:
       - name: Wait for app to be ready
         run: sleep 30
 
+      - name: Debug container status
+        run: |
+          docker compose -f docker-compose.ci.yml ps
+          docker compose -f docker-compose.ci.yml logs app
+          docker compose -f docker-compose.ci.yml logs db
+
       - name: Run integration tests
         run: pytest tests/test_app.py -v -k "not unit and not zero"
 
