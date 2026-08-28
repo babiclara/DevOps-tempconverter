@@ -28,7 +28,9 @@ services:
       - "80:5000"
     deploy:
       replicas: 2
-   
+      placement:
+        max_replicas_per_node: 1
+
 networks:
   tempnet:
     driver: overlay
