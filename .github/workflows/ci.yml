@@ -27,5 +27,17 @@ jobs:
       - name: Run unit tests
         run: pytest tests/test_app.py -v -k "unit or zero"
 
+      - name: Start app and db with docker compose
+        run: docker compose up -d
+
+      - name: Wait for app to be ready
+        run: sleep 20
+
+      - name: Run integration tests
+        run: pytest tests/test_app.py -v -k "not unit and not zero"
+
+      - name: Stop containers
+        run: docker compose down
+
       - name: Build container image
         run: docker build -t tempconverter:ci -f Containerfile .
