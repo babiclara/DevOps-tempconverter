@@ -1,0 +1,22 @@
+services:
+  db:
+    image: docker.io/library/mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: tempdb
+      MYSQL_USER: tempuser
+      MYSQL_PASSWORD: temppass
+
+  app:
+    image: docker.io/larababic/tempconverter:dev
+    environment:
+      DB_USER: tempuser
+      DB_PASS: temppass
+      DB_HOST: db
+      DB_NAME: tempdb
+      STUDENT: "Lara Babić"
+      COLLEGE: "Algebra Bernays University"
+    ports:
+      - "5001:5000"
+    depends_on:
+      - db
