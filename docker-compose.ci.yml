@@ -6,6 +6,11 @@ services:
       MYSQL_DATABASE: tempdb
       MYSQL_USER: tempuser
       MYSQL_PASSWORD: temppass
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   app:
     image: docker.io/larababic/tempconverter:dev
@@ -19,4 +24,6 @@ services:
     ports:
       - "5001:5000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    restart: on-failure
